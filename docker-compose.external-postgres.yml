@@ -49,9 +49,10 @@ services:
     environment:
       TB_SERVICE_ID: ${TB_SERVICE_ID:-tb-ce-node}
       # External PostgreSQL connection
+      # Format: jdbc:postgresql://HOST:PORT/DATABASE
       SPRING_DATASOURCE_URL: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB:-thingsboard}
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-postgres}
-      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       TB_QUEUE_TYPE: kafka
       TB_KAFKA_SERVERS: kafka:9092
     depends_on:
