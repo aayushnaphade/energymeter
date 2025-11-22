@@ -33,18 +33,20 @@ else
     echo -e "${YELLOW}Database not initialized. Running installation...${NC}"
     echo ""
     
-    # Run ThingsBoard installation
-    export INSTALL_TB=true
-    export LOAD_DEMO=${LOAD_DEMO:-false}
+    # Set installation flags
+    export install_tb=true
     
     if [ "$LOAD_DEMO" = "true" ]; then
         echo -e "${YELLOW}Installing ThingsBoard with DEMO data...${NC}"
+        export loadDemo=true
     else
         echo -e "${YELLOW}Installing ThingsBoard WITHOUT demo data...${NC}"
+        export loadDemo=false
     fi
     
-    # Run the install script
-    /usr/bin/install-tb.sh
+    # Run ThingsBoard installation using the run-application.sh script
+    echo -e "${YELLOW}Running database installation...${NC}"
+    /usr/share/thingsboard/bin/install/install.sh --loadDemo
     
     echo ""
     echo -e "${GREEN}========================================${NC}"
@@ -56,4 +58,4 @@ fi
 # Start ThingsBoard normally
 echo -e "${GREEN}Starting ThingsBoard...${NC}"
 echo ""
-exec /usr/bin/start-tb.sh
+exec /usr/share/thingsboard/bin/thingsboard.sh
