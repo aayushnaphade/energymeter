@@ -66,7 +66,9 @@ services:
         max-file: "${LOG_MAX_FILE:-10}"
     environment:
       TB_SERVICE_ID: ${TB_SERVICE_ID:-tb-ce-node}
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:${POSTGRES_PORT:-5432}/${POSTGRES_DB:-thingsboard}
+      # NOTE: Always use port 5432 here - this is the INTERNAL Docker network port
+      # POSTGRES_PORT in .env is only for external host machine access
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-thingsboard}
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-postgres}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       TB_QUEUE_TYPE: kafka
