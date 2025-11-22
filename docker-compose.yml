@@ -52,9 +52,7 @@ services:
 
   thingsboard-ce:
     restart: always
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: "thingsboard/tb-node:${TB_VERSION:-4.2.1}"
     ports:
       - "${TB_HTTP_PORT:-8080}:8080"
       - "${TB_EDGE_RPC_PORT:-7070}:7070"
@@ -68,13 +66,11 @@ services:
         max-file: "${LOG_MAX_FILE:-10}"
     environment:
       TB_SERVICE_ID: ${TB_SERVICE_ID:-tb-ce-node}
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-thingsboard}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:${POSTGRES_PORT:-5432}/${POSTGRES_DB:-thingsboard}
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-postgres}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-      POSTGRES_DB: ${POSTGRES_DB:-thingsboard}
       TB_QUEUE_TYPE: kafka
       TB_KAFKA_SERVERS: kafka:9092
-      LOAD_DEMO: ${LOAD_DEMO:-true}
     depends_on:
       postgres:
         condition: service_healthy
